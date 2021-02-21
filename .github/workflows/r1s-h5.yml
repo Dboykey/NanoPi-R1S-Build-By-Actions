@@ -100,6 +100,7 @@ jobs:
           sed -i "/uci commit luci/a\\uci commit network" package/lean/default-settings/files/zzz-default-settings
           sed -i "/uci commit luci/a\\uci set network.lan.netmask='255.255.255.0'" package/lean/default-settings/files/zzz-default-settings
           sed -i "/uci commit luci/a\\uci set network.lan.ipaddr='192.168.2.1'" package/lean/default-settings/files/zzz-default-setting
+          sed -i "/uci commit luci/a\\ " package/lean/default-settings/files/zzz-default-settings
           ./scripts/feeds update -a && ./scripts/feeds install -a
           sed -i '/Load Average/i\<tr><td width="33%"><%:CPU Temperature%></td><td><%=luci.sys.exec("cut -c1-2 /sys/class/thermal/thermal_zone0/temp")%></td></tr>' feeds/luci/modules/luci-mod-admin-full/luasrc/view/admin_status/index.htm
           sed -i 's/pcdata(boardinfo.system or "?")/"ARMv8"/' feeds/luci/modules/luci-mod-admin-full/luasrc/view/admin_status/index.htm
