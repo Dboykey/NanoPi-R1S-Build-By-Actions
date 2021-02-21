@@ -79,7 +79,29 @@ jobs:
         run: |
           cd friendlywrt-h5/friendlywrt
           mv feeds.conf.default feeds.conf.default.bak
-          ./scripts/feeds update -a && ./scripts/feeds install -a
+          touch feeds.conf.default
+          echo "src-git packages https://github.com/coolsnowwolf/packages" >>feeds.conf.default
+          echo "src-git luci https://github.com/coolsnowwolf/luci" >>feeds.conf.default
+          echo "src-git routing https://git.openwrt.org/feed/routing.git" >>feeds.conf.default
+          echo "src-git helloworld https://github.com/fw876/helloworld" >>feeds.conf.default
+          echo "src-git OpenClash https://github.com/vernesong/OpenClash.git;master" >>feeds.conf.default
+          echo "src-git lienol https://github.com/Lienol/openwrt-package.git;main" >>feeds.conf.default
+          echo "src-git diy1 https://github.com/xiaorouji/openwrt-passwall.git;main" >>feeds.conf.default
+          echo "src-git adockerman https://github.com/lisaac/luci-app-dockerman" >>feeds.conf.default
+          echo "src-git ldockerman https://github.com/lisaac/luci-lib-docker" >>feeds.conf.default
+          echo "src-git CKdiy https://github.com/Dboykey/CKdiy" >>feeds.conf.default
+          git clone https://github.com/rosywrt/luci-theme-rosy.git package/lean/luci-theme-rosy
+          git clone https://github.com/jerrykuku/luci-app-vssr.git package/lean/luci-app-vssr
+          git clone https://github.com/jerrykuku/lua-maxminddb.git package/lean/lua-maxminddb
+          rm -rf package/lean/luci-theme-argon
+          git clone -b 18.06 https://github.com/jerrykuku/luci-theme-argon.git package/lean/luci-theme-argon
+          sed -i '/uci commit luci/i\\uci set luci.main.mediaurlbase=/luci-static/argon' package/lean/default-settings/files/zzz-default-settings
+          sed -i -e '/shadow/d' package/lean/default-settings/files/zzz-default-settings
+          sed -i "/uci commit luci/a\\uci commit network" package/lean/default-settings/files/zzz-default-settings
+          sed -i "/uci commit luci/a\\uci set network.lan.netmask='255.255.255.0'" package/lean/default-settings/files/zzz-default-settings
+          sed -i "/uci commit luci/a\\uci set network.lan.ipaddr='192.168.2.1'" package/lean/default-settings/files/zzz-default-settings
+          sed -i "/uci commit luci/a\\ " package/lean/default-settings/files/zzz-default-settings
+         ./scripts/feeds update -a && ./scripts/feeds install -a
           sed -i '/Load Average/i\<tr><td width="33%"><%:CPU Temperature%></td><td><%=luci.sys.exec("cut -c1-2 /sys/class/thermal/thermal_zone0/temp")%></td></tr>' feeds/luci/modules/luci-mod-admin-full/luasrc/view/admin_status/index.htm
           sed -i 's/pcdata(boardinfo.system or "?")/"ARMv8"/' feeds/luci/modules/luci-mod-admin-full/luasrc/view/admin_status/index.htm
           
