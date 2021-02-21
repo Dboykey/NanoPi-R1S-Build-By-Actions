@@ -8,14 +8,14 @@
 # Write by Jolly 2019/12/7
 # last update at 2020/3/19
 
-name: NanoPi-R1s Build 模板
+name: DEMO - NanoPi-R1s Build
 
 on:
-  push:
-    branches: 
-      - master
-  schedule:
-    - cron: '0 6 * * *'
+  #push:
+    #branches: 
+      #- master
+  #schedule:
+    #- cron: '0 6 * * *'
   # release:
   #   types: [published]
 
