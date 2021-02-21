@@ -114,7 +114,8 @@ jobs:
       - name: Build OpenWrt
         run: |
           cd friendlywrt-h5
-          cp configs/config_h5 friendlywrt/.config
+          #cp configs/config_h5 friendlywrt/.config ##改用自己的config.r1s
+          cp ../config.r1s friendlywrt/.config
           cd friendlywrt
           make defconfig && make download -j8
           make -s -j$(nproc) || make V=s -j1
