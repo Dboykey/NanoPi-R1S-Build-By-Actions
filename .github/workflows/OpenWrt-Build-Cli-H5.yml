@@ -68,7 +68,7 @@ jobs:
       - name: Mod luci
         run: |
           cd friendlywrt-h5/friendlywrt
-         ### START
+          ### START
           mv feeds.conf.default feeds.conf.default.bak
           touch feeds.conf.default
           echo "src-git packages https://github.com/coolsnowwolf/packages" >>feeds.conf.default
@@ -92,14 +92,14 @@ jobs:
           sed -i "/uci commit luci/a\\uci set network.lan.netmask='255.255.255.0'" package/lean/default-settings/files/zzz-default-settings
           sed -i "/uci commit luci/a\\uci set network.lan.ipaddr='192.168.2.1'" package/lean/default-settings/files/zzz-default-settings
           sed -i "/uci commit luci/a\\ " package/lean/default-settings/files/zzz-default-settings
-        ### END
+          ### END
           ./scripts/feeds update -a && ./scripts/feeds install -a
           sed -i '/Load Average/i\<tr><td width="33%"><%:CPU Temperature%></td><td><%=luci.sys.exec("cut -c1-2 /sys/class/thermal/thermal_zone0/temp")%></td></tr>' feeds/luci/modules/luci-mod-admin-full/luasrc/view/admin_status/index.htm
           sed -i 's/pcdata(boardinfo.system or "?")/"ARMv8"/' feeds/luci/modules/luci-mod-admin-full/luasrc/view/admin_status/index.htm
-        ### START
+          ### START
           sed -i 's/高级重启/关机/' feeds/luci/applications/luci-app-advanced-reboot/po/zh-cn/advanced-reboot.po
           sed -i '9,12d' feeds/luci/applications/luci-app-diag-core/luasrc/controller/luci_diag.lua
-        ### END
+          ### END
         
      - name: Build OpenWrt
         run: |
