@@ -110,14 +110,22 @@ jobs:
           sed -i 's/高级重启/关机/' feeds/luci/applications/luci-app-advanced-reboot/po/zh-cn/advanced-reboot.po
           sed -i '9,12d' feeds/luci/applications/luci-app-diag-core/luasrc/controller/luci_diag.lua
           ### END
-          
-      - name: Build OpenWrt
-        run: |
           cd friendlywrt-h5
-          #cp configs/config_h5 friendlywrt/.config ##改用自己的config.r1s
           cp ../config.r1s friendlywrt/.config
           cd friendlywrt
-          make defconfig && make download -j8
+          make defconfig
+
+      - name: SSH connection to Actions
+        uses: P3TERX/ssh2actions@v1.0.0
+        if: (github.event.inputs.ssh == 'true' && github.event.inputs.ssh  != 'false') || contains(github.event.action, 'ssh')
+        env:
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+
+      - name: Build OpenWrt
+        run: |
+          cd friendlywrt-h5/friendlywrt
+          make download -j8
           make -s -j$(nproc) || make V=s -j1
           
       - name: Build SD img
