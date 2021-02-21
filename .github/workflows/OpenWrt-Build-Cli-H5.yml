@@ -1,13 +1,4 @@
-name: Run - R1s H5 OpenWrt Lean Build
-
-#on:
-#  push:
-#    branches: 
-#      - master
-#  # schedule:
-#  #   - cron: 0 20 * * *
-#  # release:
-#  #   types: [published]
+name: R1S
 
 on:
   repository_dispatch:
