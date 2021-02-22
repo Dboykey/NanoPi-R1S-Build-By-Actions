@@ -5,7 +5,7 @@ sed -i '/uci commit luci/i\\uci set luci.main.mediaurlbase=/luci-static/argon' p
 sed -i -e '/shadow/d' package/lean/default-settings/files/zzz-default-settings
 sed -i "/uci commit luci/a\\uci commit network" package/lean/default-settings/files/zzz-default-settings
 sed -i "/uci commit luci/a\\uci set network.lan.netmask='255.255.255.0'" package/lean/default-settings/files/zzz-default-settings
-sed -i "/uci commit luci/a\\uci set network.lan.ipaddr='192.168.2.1'" package/lean/default-settings/files/zzz-default-setting
+sed -i "/uci commit luci/a\\uci set network.lan.ipaddr='192.168.2.1'" package/lean/default-settings/files/zzz-default-settings
 sed -i "/uci commit luci/a\\ " package/lean/default-settings/files/zzz-default-settings
 sed -i '/exit/i\mv /etc/rc.d/S25dockerd /etc/rc.d/S92dockerd && sed -i "s/START=25/START=92/g" S92dockerd' package/lean/default-settings/files/zzz-default-settings
 sed -i '/uci commit luci/i\uci set luci.main.mediaurlbase="/luci-static/argon"' package/lean/default-settings/files/zzz-default-settings
