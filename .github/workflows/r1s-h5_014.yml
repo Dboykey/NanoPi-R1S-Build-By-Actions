@@ -59,9 +59,9 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git config merge.renameLimit 999999
-          git remote add upstream https://github.com/coolsnowwolf/lede
+          git remote add upstream https://github.com/coolsnowwolf/openwrt
           git fetch upstream
-          #git rebase 0f0c3f1a251f636df68050b75e296c6cc6965590^ --onto upstream/master -X theirs
+          git rebase b79cf9aff7dbdb262e10979b62cd14bef27b4101^ --onto upstream/master -X theirs
 
           mv feeds.conf.default feeds.conf.default.bak
           touch feeds.conf.default
