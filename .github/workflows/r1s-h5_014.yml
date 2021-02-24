@@ -61,7 +61,7 @@ jobs:
           git config merge.renameLimit 999999
           git remote add upstream https://github.com/coolsnowwolf/openwrt
           git fetch upstream
-          git rebase b79cf9aff7dbdb262e10979b62cd14bef27b4101^ --onto upstream/master -X theirs
+          #git rebase b79cf9aff7dbdb262e10979b62cd14bef27b4101^ --onto upstream/master -X theirs
 
           mv feeds.conf.default feeds.conf.default.bak
           touch feeds.conf.default
@@ -74,16 +74,17 @@ jobs:
           echo "src-git diy1 https://github.com/xiaorouji/openwrt-passwall.git;main" >>feeds.conf.default
           echo "src-git CKdiy https://github.com/Dboykey/CKdiy" >>feeds.conf.default
 
-          git clone https://github.com/rosywrt/luci-theme-rosy.git package/lean/luci-theme-rosy
-          git clone https://github.com/jerrykuku/luci-app-vssr.git package/lean/luci-app-vssr
-          git clone https://github.com/jerrykuku/lua-maxminddb.git package/lean/lua-maxminddb
+          #git clone https://github.com/rosywrt/luci-theme-rosy.git package/lean/luci-theme-rosy
+          #git clone https://github.com/jerrykuku/luci-app-vssr.git package/lean/luci-app-vssr
+          #git clone https://github.com/jerrykuku/lua-maxminddb.git package/lean/lua-maxminddb
           rm -rf package/lean/luci-theme-argon
-          git clone -b 18.06 https://github.com/jerrykuku/luci-theme-argon.git package/lean/luci-theme-argon
+          #git clone -b 18.06 https://github.com/jerrykuku/luci-theme-argon.git package/lean/luci-theme-argon
 
           ./scripts/feeds update -a && ./scripts/feeds install -a
 
           echo -e '\nDboykey Build\n'  >> package/base-files/files/etc/banner
-          sed -i '/uci commit luci/i\\uci set luci.main.mediaurlbase=/luci-static/argon' package/lean/default-settings/files/zzz-default-settings
+          #sed -i '/uci commit luci/i\\uci set luci.main.mediaurlbase=/luci-static/argon' package/lean/default-settings/files/zzz-default-settings
+          sed -i '/uci commit luci/i\\uci set luci.main.mediaurlbase=/luci-static/rosy' package/lean/default-settings/files/zzz-default-settings
           sed -i -e '/shadow/d' package/lean/default-settings/files/zzz-default-settings
           sed -i "/uci commit luci/a\\uci commit network" package/lean/default-settings/files/zzz-default-settings
           sed -i "/uci commit luci/a\\uci set network.lan.netmask='255.255.255.0'" package/lean/default-settings/files/zzz-default-settings
