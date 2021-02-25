@@ -106,7 +106,7 @@ jobs:
       - name: 安装 feed 前代码微调
         run: |
           cd friendlywrt-h5/friendlywrt
-          mv ../lede/feeds/packages/net/wsdd2 ./feeds/packages/net/
+          mv ../lede/package/lean/wsdd2 ./package/lean/
           mv ../lede/feeds/packages/libs/nss ./feeds/packages/libs/
           mv ../lede/feeds/packages/libs/nspr ./feeds/packages/libs/
           mv ../lede/feeds/packages/devel/ninja ./feeds/packages/devel/
