@@ -1,0 +1,95 @@
+name: R1S_H5_016
+
+on:
+  repository_dispatch:
+  workflow_dispatch:
+    inputs:
+      ssh:
+        description: 'SSH connection to Actions'
+        required: true
+        default: 'true'
+
+env:
+  TZ: Asia/Shanghai
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@main
+
+      - name: 环境部署
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: |
+          sudo rm -rf /etc/apt/sources.list.d/* /usr/share/dotnet /usr/local/lib/android /opt/ghc
+          sudo -E apt-get -qq update
+          sudo -E apt-get -qq install $(curl -fsSL git.io/depends-ubuntu-1804)
+          sudo -E apt-get -qq autoremove --purge
+          sudo -E apt-get -qq clean
+          sudo timedatectl set-timezone "$TZ"
+          sudo apt-get -y install curl ne screen htop bc build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev libz-dev patch unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion flex uglifyjs git-core gcc-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils upx libelf-dev autoconf automake libtool autopoint device-tree-compiler
+          wget -O - https://raw.githubusercontent.com/friendlyarm/build-env-on-ubuntu-bionic/master/install.sh | bash
+          alias cls='clear'
+          alias df='df -h'
+          alias duu='du -sh'
+          alias egrep='egrep --color=auto'
+          alias fgrep='fgrep --color=auto'
+          alias fname='func() { find -name *$1*;}; func'
+          alias grep='grep --color=auto'
+          alias l='ls -CF'
+          alias la='ls -A'
+          alias lh='ls -lh'
+          alias lha='lh -a'
+          alias ll='ls -alF'
+          alias ls='ls --color=auto'
+          alias md='mkdir -p'
+          alias psg='ps ax | grep'
+          alias rm='rm -rf'
+          alias upcls='./scripts/feeds clean'
+          alias upfeed='./scripts/feeds update -a && ./scripts/feeds install -a'
+          alias upins='./scripts/feeds install -a'
+          alias upup='source ~/.bashrc'
+
+      - name: 安装 Repo
+        run: |
+          git clone https://github.com/friendlyarm/repo
+          sudo cp repo/repo /usr/bin/
+
+      - name: 下载 friendlywrt-h5 源码
+        run: |
+          mkdir friendlywrt-h5
+          cd friendlywrt-h5
+          repo init -u https://github.com/friendlyarm/friendlywrt_manifests -b master -m h5.xml --repo-url=https://github.com/friendlyarm/repo  --no-clone-bundle
+          repo sync -c --no-clone-bundle -j8
+
+      - name: SSH connection to Actions
+        uses: P3TERX/ssh2actions@v1.0.0
+        if: (github.event.inputs.ssh == 'true' && github.event.inputs.ssh  != 'false') || contains(github.event.action, 'ssh')
+        env:
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+
+      - name: 生成 SD 镜像
+        run: |
+          cd friendlywrt-h5
+          sed -i '130,150 {/build_friendlywrt/d}' scripts/build.sh
+          ./build.sh nanopi_r1s.mk
+
+      - name: Zip 压缩文件
+        run: |
+          find friendlywrt-h5/out/ -name "FriendlyWrt_*img*" | xargs -i zip -r {}.zip {}
+
+      - name: Assemble Artifact
+        run: |
+          rm -rf ./artifact/
+          mkdir -p ./artifact/
+          find friendlywrt-h5/out/ -name "FriendlyWrt_*img.zip*" | xargs -i mv -f {} ./artifact/
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@master
+        with:
+          name: FriendlyWrt_NanoPi-R1S H5 Lean
+          path: ./artifact/
