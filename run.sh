@@ -7,7 +7,7 @@
 #repo sync -c --no-clone-bundle -j8
 
 # 调整wrt代码【非常重要】
-#cd friendlywrt-h5
+cd friendlywrt-h5
 rm -rf friendlywrt
 mkdir friendlywrt
 cd friendlywrt
