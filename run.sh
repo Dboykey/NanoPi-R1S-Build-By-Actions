@@ -1,12 +1,13 @@
 ﻿#!/bin/bash
 
 # 获取代码
-mkdir friendlywrt-h5
-cd friendlywrt-h5
-repo init -u https://github.com/friendlyarm/friendlywrt_manifests -b master -m h5.xml --repo-url=https://github.com/friendlyarm/repo  --no-clone-bundle
-repo sync -c --no-clone-bundle -j8
+#mkdir friendlywrt-h5
+#cd friendlywrt-h5
+#repo init -u https://github.com/friendlyarm/friendlywrt_manifests -b master -m h5.xml --repo-url=https://github.com/friendlyarm/repo  --no-clone-bundle
+#repo sync -c --no-clone-bundle -j8
 
 # 调整wrt代码【非常重要】
+#cd friendlywrt-h5
 rm -rf friendlywrt
 mkdir friendlywrt
 cd friendlywrt
@@ -20,7 +21,7 @@ git pull upstream openwrt-18.06 --no-edit
 
 # 融合lede的插件
 cd ..
-git clone -b https://github.com/coolsnowwolf/openwrt lede
+git clone https://github.com/coolsnowwolf/openwrt lede
 cd lede
 ./scripts/feeds update -a
 ./scripts/feeds install -a
