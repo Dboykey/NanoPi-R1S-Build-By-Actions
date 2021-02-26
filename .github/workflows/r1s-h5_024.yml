@@ -236,11 +236,13 @@ jobs:
       - name: 第二次 定制编译 OpenWrt
         run: |
           cd friendlywrt-h5/friendlywrt
+
+          make package/feeds/luci/luci-base/compile V=s
+
           rm .config*
           cp ../../config.r1s ./.config
           make defconfig
           make download V=s
-          make package/feeds/luci/luci-base/compile V=s
           make -j1 V=s
 
       - name: 生成 SD 镜像
@@ -268,7 +270,8 @@ jobs:
         run: |
           rm -rf ./artifact/
           mkdir -p ./artifact/
-          find friendlywrt-h5/out/ -name "FriendlyWrt_*img.zip*" | xargs -i mv -f {} ./artifact/
+          #find friendlywrt-h5/out/ -name "FriendlyWrt_*img.zip*" | xargs -i mv -f {} ./artifact/
+          find friendlywrt-h5/out/ -name "FriendlyWrt_*img.gz*" | xargs -i mv -f {} ./artifact/
 
       - name: Upload Artifact
         uses: actions/upload-artifact@master
