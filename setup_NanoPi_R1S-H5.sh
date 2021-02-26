@@ -1,4 +1,4 @@
-#!/bin/bash
+﻿#!/bin/bash
 
 # 这个脚本是从下载源码开始，一直到编译前配置选项的全自动控制流程。
 # 使用这个脚本前，首先运行部署lede编译环境脚本和运行NanoPi编译环境脚本。
@@ -32,8 +32,8 @@ cd ..
 git clone https://github.com/coolsnowwolf/openwrt 4.14
 cd 4.14
 ./scripts/feeds update -a
-#./scripts/feeds install -a
-mv package/lean/ ../friendlywrt/package/
+
+cp -r package/lean/ ../friendlywrt/package/
 cd ../friendlywrt/package/lean
 rm -rf baidupcs-web
 rm -rf luci-app-baidupcs-web
@@ -67,42 +67,43 @@ touch feeds.conf.default
 echo "src-git packages https://git.openwrt.org/feed/packages.git;openwrt-18.06" >>feeds.conf.default
 echo "src-git luci https://git.openwrt.org/project/luci.git;openwrt-18.06" >>feeds.conf.default
 echo "src-git routing https://git.openwrt.org/feed/routing.git;openwrt-18.06" >>feeds.conf.default
-echo "src-git helloworld https://github.com/fw876/helloworld" >>feeds.conf.default
-echo "src-git diy1 https://github.com/xiaorouji/openwrt-passwall.git;main" >>feeds.conf.default
 echo "src-git OpenClash https://github.com/vernesong/OpenClash.git;master" >>feeds.conf.default
+echo "src-git diy1 https://github.com/xiaorouji/openwrt-passwall.git;main" >>feeds.conf.default
+echo "#src-git helloworld https://github.com/fw876/helloworld" >>feeds.conf.default
 git clone https://github.com/rosywrt/luci-theme-rosy.git package/lean/luci-theme-rosy
 git clone https://github.com/Dboykey/CKdiy.git package/CKdiy
 
 # 下载更新 feeds
 ./scripts/feeds update -a
-#./scripts/feeds install -a
 
 # 安装 feed 前代码调整
 mv package/CKdiy/packr feeds/packages/devel/
 
-#cp -r ../5.4/feeds/packages/libs/nss package/CKdiy/
-#cp -r ../5.4/feeds/packages/libs/nspr package/CKdiy/
+cp -r ../5.4/feeds/packages/libs/nss package/CKdiy/
+cp -r ../5.4/feeds/packages/libs/nspr package/CKdiy/
 #cp -r ../5.4/feeds/packages/utils/zstd package/CKdiy/
-#cp -r ../5.4/feeds/packages/devel/ninja package/CKdiy/
+cp -r ../5.4/feeds/packages/devel/ninja package/CKdiy/
 #cp -r ../5.4/feeds/packages/devel/meson package/CKdiy/
 #cp -r ../5.4/feeds/packages/lang/python/python3 package/CKdiy/
 #cp -r ../5.4/package/system/ca-certificates package/CKdiy/
 
-mv ../5.4/feeds/packages/libs/nss feeds/packages/libs/
-mv ../5.4/feeds/packages/libs/nspr feeds/packages/libs/
-mv ../5.4/feeds/packages/utils/zstd feeds/packages/utils/
-mv ../5.4/feeds/packages/devel/ninja feeds/packages/devel/
-mv ../5.4/feeds/packages/devel/meson feeds/packages/devel/
-rm -rf feeds/packages/lang/python/python3
-mv ../5.4/feeds/packages/lang/python/python3 feeds/packages/lang/python/python3
-rm -rf package/system/ca-certificates
-mv ../5.4/package/system/ca-certificates package/system/
-rm -rf feeds/packages/lang/golang
-mv package/CKdiy/golang ./feeds/packages/lang/
-rm -rf feeds/packages/admin/ipmitool
-mv package/CKdiy/ipmitool ./feeds/packages/admin/
+#cp -r ../5.4/feeds/packages/libs/nss feeds/packages/libs/
+#cp -r ../5.4/feeds/packages/libs/nspr feeds/packages/libs/
+cp -r ../5.4/feeds/packages/utils/zstd feeds/packages/utils/
+#cp -r ../5.4/feeds/packages/devel/ninja feeds/packages/devel/
+cp -r ../5.4/feeds/packages/devel/meson feeds/packages/devel/
 
-echo -e '\nDboykey Build\n'  >> package/base-files/files/etc/banner
+#rm -rf feeds/packages/lang/python/python3
+#cp -r ../5.4/feeds/packages/lang/python/python3 feeds/packages/lang/python/python3
+#rm -rf package/system/ca-certificates
+#cp -r ../5.4/package/system/ca-certificates package/system/
+
+rm -rf feeds/packages/lang/golang
+cp -r ../5.4/feeds/packages/lang/golang ./feeds/packages/lang/
+rm -rf feeds/packages/admin/ipmitool
+cp -r ../5.4/feeds/packages/admin/ipmitool ./feeds/packages/admin/
+
+echo -e '\nDboykey Build\n' >> package/base-files/files/etc/banner
 ln -s package/lean/default-settings/files/zzz-default-settings
 sed -i '/uci commit luci/i\\uci set luci.main.mediaurlbase=/luci-static/rosy' package/lean/default-settings/files/zzz-default-settings
 sed -i -e '/shadow/d' package/lean/default-settings/files/zzz-default-settings
@@ -111,7 +112,7 @@ sed -i "/uci commit luci/a\\uci set network.lan.netmask='255.255.255.0'" package
 sed -i "/uci commit luci/a\\uci set network.lan.ipaddr='192.168.2.1'" package/lean/default-settings/files/zzz-default-settings
 sed -i "/uci commit luci/a\\ " package/lean/default-settings/files/zzz-default-settings
 sed -i '/exit/i\chown -R root:root /usr/share/netdata/web' package/lean/default-settings/files/zzz-default-settings
-mv ../5.4/feeds/luci/applications/luci-app-advanced-reboot/po/zh-cn feeds/luci/applications/luci-app-advanced-reboot/po/
+cp -r ../5.4/feeds/luci/applications/luci-app-advanced-reboot/po/zh-cn feeds/luci/applications/luci-app-advanced-reboot/po/
 sed -i 's/高级重启/关机/' feeds/luci/applications/luci-app-advanced-reboot/po/zh-cn/advanced-reboot.po
 sed -i '9,12d' feeds/luci/applications/luci-app-diag-core/luasrc/controller/luci_diag.lua
 
@@ -170,7 +171,7 @@ echo "CONFIG_PACKAGE_rpcd=y" >>.config
 echo "CONFIG_PACKAGE_rpcd-mod-rrdns=y" >>.config
 echo "CONFIG_PACKAGE_uhttpd=y" >>.config
 make defconfig
-make download -j8 V=s
+make download V=s
 make V=s
 
 # 第二次编译前为了排错，先编译 luci-base
@@ -180,6 +181,5 @@ make V=s
 rm .config*
 cp config.r1s ./.config
 make defconfig
-make download -j8 V=s
+make download V=s
 make V=s
-
