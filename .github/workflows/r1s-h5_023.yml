@@ -203,7 +203,7 @@ jobs:
           echo "CONFIG_PACKAGE_uhttpd=y" >>.config
           make defconfig
           make download -j8
-          make j1 V=s
+          make -j1 V=s
 
       - name: 第二次 定制编译 OpenWrt
         run: |
