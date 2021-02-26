@@ -65,7 +65,7 @@ jobs:
           git clone https://github.com/coolsnowwolf/openwrt lede
           cd lede
           ./scripts/feeds update -a
-          ./scripts/feeds install -a
+          #./scripts/feeds install -a
           cp -r package/lean/ ../friendlywrt/package/
           cd ../friendlywrt/package/lean
           rm -rf baidupcs-web
