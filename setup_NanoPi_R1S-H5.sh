@@ -97,7 +97,7 @@ rm -rf feeds/packages/lang/python/python3
 mv ../5.4/feeds/packages/lang/python/python3 feeds/packages/lang/python/python3
 rm -rf package/system/ca-certificates
 mv ../5.4/package/system/ca-certificates package/system/
-rm -rf packages/lang/golang
+rm -rf feeds/packages/lang/golang
 mv package/CKdiy/golang ./feeds/packages/lang/
 rm -rf feeds/packages/admin/ipmitool
 mv package/CKdiy/ipmitool ./feeds/packages/admin/
