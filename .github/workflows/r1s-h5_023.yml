@@ -77,6 +77,21 @@ jobs:
           rm -rf luci-app-docker
           rm -rf luci-theme-netgear
           rm -rf luci-theme-argon
+          rm -rf qt5
+          rm -rf luci-app-n2n_v2
+          rm -rf n2n_v2
+          rm -rf luci-app-openvpn-server
+          rm -rf luci-app-qbittorrent
+          rm -rf qBittorrent
+          rm -rf luci-app-softethervpn
+          rm -rf softethervpn5
+          rm -rf luci-app-webadmin
+          rm -rf luci-lib-docker 
+          rm -rf luci-proto-bonding
+          rm -rf luci-app-sfe
+          rm -rf luci-app-flowoffload
+          rm -rf luci-app-vsftpd
+          rm -rf vsftpd-alt
 
       - name: 更新下载 feed 前代码微调
         run: |
@@ -137,10 +152,58 @@ jobs:
       - name: 第一次 原始编译 OpenWrt
         run: |
           cd friendlywrt-h5/friendlywrt
-          cp ../../config.001 ./.config
+          touch .config
+          echo "CONFIG_TARGET_sunxi=y" >>.config
+          echo "CONFIG_TARGET_sunxi_cortexa53=y" >>.config
+          echo "CONFIG_TARGET_sunxi_cortexa53_DEVICE_sun50i-h5-nanopi-neo-plus2=y" >>.config
+          echo 'CONFIG_KERNEL_BUILD_USER="Dboykey"' >>.config
+          echo "CONFIG_LUCI_LANG_en=y" >>.config
+          echo "CONFIG_LUCI_LANG_zh-cn=y" >>.config
+          echo "CONFIG_PACKAGE_default-settings=y" >>.config
+          echo "# CONFIG_PACKAGE_dnsmasq is not set" >>.config
+          echo "CONFIG_PACKAGE_dnsmasq-full=y" >>.config
+          echo "CONFIG_PACKAGE_dnsmasq_full_auth=y" >>.config
+          echo "CONFIG_PACKAGE_dnsmasq_full_conntrack=y" >>.config
+          echo "CONFIG_PACKAGE_dnsmasq_full_dhcp=y" >>.config
+          echo "CONFIG_PACKAGE_dnsmasq_full_dhcpv6=y" >>.config
+          echo "CONFIG_PACKAGE_dnsmasq_full_dnssec=y" >>.config
+          echo "CONFIG_PACKAGE_dnsmasq_full_ipset=y" >>.config
+          echo "CONFIG_PACKAGE_dnsmasq_full_noid=y" >>.config
+          echo "CONFIG_PACKAGE_kmod-ipt-ipset=y" >>.config
+          echo "CONFIG_PACKAGE_kmod-nf-conntrack-netlink=y" >>.config
+          echo "CONFIG_PACKAGE_kmod-nfnetlink=y" >>.config
+          echo "CONFIG_PACKAGE_libgmp=y" >>.config
+          echo "CONFIG_PACKAGE_libiwinfo-lua=y" >>.config
+          echo "CONFIG_PACKAGE_liblua=y" >>.config
+          echo "CONFIG_PACKAGE_liblucihttp=y" >>.config
+          echo "CONFIG_PACKAGE_liblucihttp-lua=y" >>.config
+          echo "CONFIG_PACKAGE_libmnl=y" >>.config
+          echo "CONFIG_PACKAGE_libnetfilter-conntrack=y" >>.config
+          echo "CONFIG_PACKAGE_libnettle=y" >>.config
+          echo "CONFIG_PACKAGE_libnfnetlink=y" >>.config
+          echo "CONFIG_PACKAGE_libubus-lua=y" >>.config
+          echo "CONFIG_PACKAGE_lua=y" >>.config
+          echo "CONFIG_PACKAGE_luci=y" >>.config
+          echo "CONFIG_PACKAGE_luci-app-firewall=y" >>.config
+          echo "CONFIG_PACKAGE_luci-base=y" >>.config
+          echo "CONFIG_PACKAGE_luci-i18n-base-en=y" >>.config
+          echo "CONFIG_PACKAGE_luci-i18n-base-zh-cn=y" >>.config
+          echo "CONFIG_PACKAGE_luci-i18n-firewall-en=y" >>.config
+          echo "CONFIG_PACKAGE_luci-i18n-firewall-zh-cn=y" >>.config
+          echo "CONFIG_PACKAGE_luci-lib-ip=y" >>.config
+          echo "CONFIG_PACKAGE_luci-lib-jsonc=y" >>.config
+          echo "CONFIG_PACKAGE_luci-lib-nixio=y" >>.config
+          echo "CONFIG_PACKAGE_luci-mod-admin-full=y" >>.config
+          echo "CONFIG_PACKAGE_luci-proto-ipv6=y" >>.config
+          echo "CONFIG_PACKAGE_luci-proto-ppp=y" >>.config
+          echo "CONFIG_PACKAGE_luci-theme-bootstrap=y" >>.config
+          echo "CONFIG_PACKAGE_luci-theme-rosy=y" >>.config
+          echo "CONFIG_PACKAGE_rpcd=y" >>.config
+          echo "CONFIG_PACKAGE_rpcd-mod-rrdns=y" >>.config
+          echo "CONFIG_PACKAGE_uhttpd=y" >>.config
           make defconfig
           make download -j8
-          make V=s
+          make j1 V=s
 
       - name: 第二次 定制编译 OpenWrt
         run: |
