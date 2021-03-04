@@ -63,6 +63,13 @@ jobs:
           git pull origin master-v18.06.1
           git pull upstream openwrt-18.06 --no-edit
 
+      - name: SSH connection to Actions
+        uses: Dboykey/ssh2actions@v1.0.0
+        if: (github.event.inputs.ssh == 'true' && github.event.inputs.ssh  != 'false') || contains(github.event.action, 'ssh')
+        env:
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+
       - name: Plug-in for lede integration
         run: |
           # 融合 lede 的插件
