@@ -199,21 +199,24 @@ jobs:
 
           # 为生成SD镜像的脚本加入gzip压缩功能
           cp scripts/sd-fuse/mk-sd-image.sh scripts/sd-fuse/mk-sd-image.sh.bak
-          sed -i "/space/a\\echo 'RAW image successfully compress'" scripts/sd-fuse/mk-sd-image.sh
-          sed -i "/space/a\\gzip -9 {RAW_FILE}" scripts/sd-fuse/mk-sd-image.sh
-          sed -i 's/gzip -9 /gzip -9 $/' scripts/sd-fuse/mk-sd-image.sh
-          sed -i "/space/a\\echo '---------------------------------'" scripts/sd-fuse/mk-sd-image.sh
-          sed -i "/space/a\\ " scripts/sd-fuse/mk-sd-image.sh
+          sed -i '/space/a\\ls -l out/F*' scripts/sd-fuse/mk-sd-image.sh
+          sed -i '/space/a\\echo "RAW image successfully compress"' scripts/sd-fuse/mk-sd-image.sh
+          sed -i '/space/a\\gzip -9 out/F*' scripts/sd-fuse/mk-sd-image.sh
+          sed -i '/space/a\\echo "---------------------------------"' scripts/sd-fuse/mk-sd-image.sh
+          sed -i '/space/a\\ ' scripts/sd-fuse/mk-sd-image.sh
 
           # 删除重复编译wrt的步骤
           cp scripts/build.sh scripts/build.sh.bak
           sed -i '130,150 {/build_friendlywrt/d}' scripts/build.sh
+          sed -i '295,302d' scripts/build.sh
 
           # 修改代码让其支持使用其他的wrt源码而不是特定的那套
           # 【实测确认，可以编译通过】
           sed -i 's/root-allwinner-h5/root-sunxi/' device/friendlyelec/h5/base.mk
 
           # 正式生成SD镜像
+          #sudo cp /usr/bin/gcc /usr/bin/gcc_bkp
+          #sudo ln -s /usr/bin/aarch64-linux-gnu-gcc /usr/bin/gcc
           ./build.sh nanopi_r1s.mk
 
       - name: Assemble Artifact
