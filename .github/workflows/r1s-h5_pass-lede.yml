@@ -116,7 +116,7 @@ jobs:
         run: |
           # 更新下载 feed 前代码微调
           cd h5/friendlywrt
-          mv feeds.conf.default feeds.conf.default.bak
+          cp feeds.conf.default feeds.conf.default.bak
           sed -i -e '/helloworld/d' feeds.conf.default
           sed -i -e '/#/d' feeds.conf.default
           git clone https://github.com/Dboykey/CKdiy.git package/CKdiy
