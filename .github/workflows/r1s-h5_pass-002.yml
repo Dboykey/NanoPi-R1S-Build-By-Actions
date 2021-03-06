@@ -1,4 +1,4 @@
-name: R1S_H5_pass-001
+name: R1S_H5_pass-002
 
 on:
   repository_dispatch:
@@ -14,8 +14,9 @@ env:
   #REPO_BRANCH: master
   #FEEDS_CONF: feeds.conf.default
   CONFIG_FILE: config.lede
-  DIY_P1_SH: diy-p1.sh
-  #DIY_P2_SH: diy-p2.sh
+  DIY_P1_SH: diy-p2.sh
+  DIY_P2_SH: diy-p3.sh
+  DIY_P3_SH: diy-p4.sh
   #UPLOAD_BIN_DIR: false
   #UPLOAD_FIRMWARE: true
   #UPLOAD_COWTRANSFER: false
@@ -31,12 +32,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@main
 
-      - name: All in 1
+      - name: Initialization environment
         env:
           DEBIAN_FRONTEND: noninteractive
         run: |
-          # 所有执行流程全部转交到 DIY 脚本执行
-          chmod +x $DIY_P1_SH
+          # 第一部分：环境部署和源码下载
+          chmod +x $DIY_P2_SH
           $GITHUB_WORKSPACE/$DIY_P1_SH
 
       - name: SSH connection to Actions
@@ -45,6 +46,20 @@ jobs:
         env:
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+
+      - name: Plug-in for lede integration
+        run: |
+          # 第二部分：调整代码
+          chmod +x $DIY_P3_SH
+          cd h5
+          $GITHUB_WORKSPACE/$DIY_P3_SH
+
+      - name: Build OpenWrt & Build SD img
+        run: |
+          # 第三部分：编译WRT和生成R1S固件
+          chmod +x $DIY_P4_SH
+          cd h5/friendlywrt
+          $GITHUB_WORKSPACE/$DIY_P4_SH
 
       - name: Assemble Artifact
         run: |
