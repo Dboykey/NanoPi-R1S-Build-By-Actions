@@ -61,12 +61,6 @@ jobs:
           cd h5/friendlywrt
           $GITHUB_WORKSPACE/$DIY_P4_SH
 
-      - name: Build SD img
-        run: |
-          # 正式生成SD镜像
-          cd h5
-          ./build.sh nanopi_r1s.mk
-
       - name: Assemble Artifact
         run: |
           rm -rf ./artifact/
