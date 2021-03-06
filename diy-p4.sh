@@ -30,6 +30,3 @@ sed -i '298c\\               gzip -9 F*.img' scripts/build.sh
 
 # 修改代码让其支持使用其他的wrt源码而不是特定的那套
 sed -i 's/root-allwinner-h5/root-sunxi/' device/friendlyelec/h5/base.mk
-
-# 正式生成SD镜像
-../build.sh nanopi_r1s.mk
