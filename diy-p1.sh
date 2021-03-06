@@ -140,6 +140,7 @@ make -j3
 
 # 生成 SD 镜像
 ## 删除重复编译wrt的步骤
+cd ..
 cp scripts/build.sh scripts/build.sh.bak
 sed -i '130,150 {/build_friendlywrt/d}' scripts/build.sh
 sed -i '297c\\               rm -f F*.gz' scripts/build.sh
