@@ -40,13 +40,6 @@ jobs:
           chmod +x $DIY_P2_SH
           $GITHUB_WORKSPACE/$DIY_P2_SH
 
-      - name: SSH connection to Actions
-        uses: Dboykey/ssh2actions@v1.0.0
-        if: (github.event.inputs.ssh == 'true' && github.event.inputs.ssh  != 'false') || contains(github.event.action, 'ssh')
-        env:
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-
       - name: Plug-in for lede integration
         run: |
           # 第二部分：调整代码
@@ -61,20 +54,12 @@ jobs:
           cd h5/friendlywrt
           $GITHUB_WORKSPACE/$DIY_P4_SH
 
-      - name: Build SD img
-        run: |
-          # 生成SD镜像
-          cd h5
-          # 调整输出R1S的脚本，删除重复编译wrt的步骤
-          cp scripts/build.sh scripts/build.sh.bak
-          sed -i '130,150 {/build_friendlywrt/d}' scripts/build.sh
-          # 把使用zip压缩改为使用gzip压缩
-          sed -i '297c\\               rm -f F*.gz' scripts/build.sh
-          sed -i '298c\\               gzip -9 F*.img' scripts/build.sh
-          # 修改代码让其支持使用其他的wrt源码而不是特定的那套
-          sed -i 's/root-allwinner-h5/root-sunxi/' device/friendlyelec/h5/base.mk
-          # 正式生成SD镜像
-          ./build.sh nanopi_r1s.mk
+      - name: SSH connection to Actions
+        uses: Dboykey/ssh2actions@v1.0.0
+        if: (github.event.inputs.ssh == 'true' && github.event.inputs.ssh  != 'false') || contains(github.event.action, 'ssh')
+        env:
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
 
       - name: Assemble Artifact
         run: |
