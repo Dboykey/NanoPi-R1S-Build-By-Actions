@@ -137,12 +137,16 @@ sed -i "s|sys/random.h|/usr/include/linux/random.h|g" build_dir/target-aarch64_c
 
 make -j3
 
-# 删除重复编译wrt的步骤
 cd ..
 cp scripts/build.sh scripts/build.sh.bak
-sed -i '130,150 {/build_friendlywrt/d}' scripts/build.sh
+
+# 把使用zip压缩改为使用gzip压缩
 sed -i '297c\\               rm -f F*.gz' scripts/build.sh
 sed -i '298c\\               gzip -9 F*.img' scripts/build.sh
+
+# 删除重复编译wrt的步骤
+#sed -i '130,150 {/build_friendlywrt/d}' scripts/build.sh
+sed -i '130,150 {s/build_friendlywrt/#build_friendlywrt/}' scripts/build.sh
 
 # 修改代码让其支持使用其他的wrt源码而不是特定的那套
 sed -i 's/root-allwinner-h5/root-sunxi/' device/friendlyelec/h5/base.mk
