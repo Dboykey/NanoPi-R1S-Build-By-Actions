@@ -38,6 +38,13 @@ jobs:
           sudo apt-get -y install curl ne screen htop libxcb-ewmh-dev parted dosfstools
           wget -O - https://raw.githubusercontent.com/friendlyarm/build-env-on-ubuntu-bionic/master/install.sh | bash
 
+      - name: SSH connection to Actions
+        uses: Dboykey/ssh2actions@v1.0.0
+        if: (github.event.inputs.ssh == 'true' && github.event.inputs.ssh  != 'false') || contains(github.event.action, 'ssh')
+        env:
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+
       - name: Install Repo
         run: |
           # 安装 Repo
@@ -51,13 +58,6 @@ jobs:
           cd friendlywrt-h5
           repo init -u https://github.com/friendlyarm/friendlywrt_manifests -b master -m h5.xml --repo-url=https://github.com/friendlyarm/repo  --no-clone-bundle
           repo sync -c --no-clone-bundle -j8
-
-      - name: SSH connection to Actions
-        uses: Dboykey/ssh2actions@v1.0.0
-        if: (github.event.inputs.ssh == 'true' && github.event.inputs.ssh  != 'false') || contains(github.event.action, 'ssh')
-        env:
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
 
       - name: Assemble Artifact
         run: |
