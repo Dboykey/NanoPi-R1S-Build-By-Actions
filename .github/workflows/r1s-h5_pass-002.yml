@@ -47,7 +47,7 @@ jobs:
           cd h5
           $GITHUB_WORKSPACE/$DIY_P3_SH
 
-      - name: Build OpenWrt
+      - name: Build OpenWrt & Build SD img
         run: |
           # 第三部分：编译WRT和生成R1S固件
           chmod +x $DIY_P4_SH
