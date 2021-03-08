@@ -51,7 +51,7 @@ git clone https://github.com/xiaorouji/openwrt-passwall.git package/passwall
 git clone -b master https://github.com/vernesong/OpenClash.git ../add/OpenClash
 cp -r ../add/OpenClash/luci-app-openclash ./package/lean/
 git clone https://github.com/fw876/helloworld.git ../add/SSR
-cp -r ../add/SSR/luci-app-
+cp -r ../add/SSR/luci-app-ssr-plus ./package/lean/
 git clone https://github.com/rosywrt/luci-theme-rosy.git ../add/Rosy
 cp -r ../add/Rosy/luci-theme-rosy ./package/lean/
 git clone https://github.com/linkease/ddnsto-openwrt.git ../add/ddnsto
