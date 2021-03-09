@@ -14,9 +14,10 @@ env:
   #REPO_BRANCH: master
   #FEEDS_CONF: feeds.conf.default
   CONFIG_FILE: config.lede
-  DIY_P5_SH: diy-p5.sh
-  DIY_P3_SH: diy-p3.sh
-  DIY_P6_SH: diy-p6.sh
+  DIY_P1_SH: diy-p5.sh
+  DIY_P2_SH: diy-p3.sh
+  DIY_P3_SH: diy-p6.sh
+  DIY_P4_SH: diy-p7.sh
   UPLOAD_BIN_DIR: false
   UPLOAD_FIRMWARE: true
   UPLOAD_COWTRANSFER: false
@@ -37,22 +38,29 @@ jobs:
           DEBIAN_FRONTEND: noninteractive
         run: |
           # 第一部分：环境部署和源码下载
-          chmod +x $DIY_P5_SH
-          $GITHUB_WORKSPACE/$DIY_P5_SH
+          chmod +x $DIY_P1_SH
+          $GITHUB_WORKSPACE/$DIY_P1_SH
 
       - name: Plug-in for lede integration
         run: |
           # 第二部分：调整代码
-          chmod +x $DIY_P3_SH
+          chmod +x $DIY_P2_SH
           cd h5
+          $GITHUB_WORKSPACE/$DIY_P2_SH
+
+      - name: Build OpenWrt
+        run: |
+          # 第三部分：编译WRT
+          chmod +x $DIY_P3_SH
+          cd h5/friendlywrt
           $GITHUB_WORKSPACE/$DIY_P3_SH
 
-      - name: Build OpenWrt & Build SD img
+      - name: Build SD img
         run: |
-          # 第三部分：编译WRT和生成R1S固件
-          chmod +x $DIY_P6_SH
-          cd h5/friendlywrt
-          $GITHUB_WORKSPACE/$DIY_P6_SH
+          # 第四部分：生成R1S固件
+          chmod +x $DIY_P4_SH
+          cd h5
+          $GITHUB_WORKSPACE/$DIY_P4_SH
 
       - name: SSH connection to Actions
         uses: Dboykey/ssh2actions@v1.0.0
