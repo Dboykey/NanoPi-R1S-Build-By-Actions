@@ -17,8 +17,8 @@ sudo apt-get -y install msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils
 sudo apt-get -y install device-tree-compiler gcc-aarch64-linux-gnu patch p7zip p7zip-full
 sudo apt-get -y install curl ne screen htop libxcb-ewmh-dev parted dosfstools
 wget -O - https://raw.githubusercontent.com/friendlyarm/build-env-on-ubuntu-bionic/master/install.sh | bash
-sudo mkdir -p /workdir
-sudo chown $USER:$GROUPS /workdir
+#sudo mkdir -p /workdir
+#sudo chown $USER:$GROUPS /workdir
 
 # 安装 Repo
 git clone https://github.com/friendlyarm/repo
@@ -34,4 +34,4 @@ repo sync -c --no-clone-bundle -j8
 rm -rf friendlywrt
 git clone https://github.com/coolsnowwolf/openwrt friendlywrt
 
-ln -sf /workdir/openwrt $GITHUB_WORKSPACE/h5/friendlywrt
+#ln -sf /workdir/openwrt $GITHUB_WORKSPACE/h5/friendlywrt
