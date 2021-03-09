@@ -65,7 +65,7 @@ jobs:
         run: |
           rm -rf ./artifact/
           mkdir -p ./artifact/
-          find h5/out/ -name "FriendlyWrt*gz" | xargs -i mv -f {} ./artifact/
+          find h5/out/ -name "FriendlyWrt*" | xargs -i mv -f {} ./artifact/
           find h5/friendlywrt/bin/ -name "openwrt-sunxi-cortexa53-*-squashfs-sdcard.img.gz" | xargs -i mv -f {} ./artifact/
 
           #添加打包代码的命令进来，再添加发布到release的代码在后面
