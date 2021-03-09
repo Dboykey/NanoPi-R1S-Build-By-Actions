@@ -28,7 +28,7 @@ cp scripts/build.sh scripts/build.sh.bak
 
 # 把使用zip压缩改为使用gzip压缩
 #sed -i '/\                rm -f/c\                rm -f F*.gz' scripts/build.sh
-sed -i '/\                zip/c\                gzip -9 F*.img' scripts/build.sh
+#sed -i '/\                zip/c\                gzip -9 F*.img' scripts/build.sh
 
 # 调整输出R1S的脚本，删除重复编译wrt的步骤
 #sed -i '130,150 {/build_friendlywrt/d}' scripts/build.sh
