@@ -23,7 +23,7 @@ rm -rf package/lean/n2n_v2
 rm -rf package/lean/luci-app-openvpn-server
 rm -rf package/lean/luci-app-qbittorrent
 rm -rf package/lean/qBittorrent
-rm -rf package/lean/luci-app-softethervpnc
+rm -rf package/lean/luci-app-softethervpn
 rm -rf package/lean/softethervpn5
 rm -rf package/lean/luci-app-vsftpd
 rm -rf package/lean/vsftpd-alt
@@ -50,8 +50,6 @@ git clone https://github.com/Dboykey/CKdiy.git package/CKdiy
 git clone https://github.com/xiaorouji/openwrt-passwall.git package/passwall
 git clone -b master https://github.com/vernesong/OpenClash.git ../add/OpenClash
 cp -r ../add/OpenClash/luci-app-openclash ./package/lean/
-git clone https://github.com/fw876/helloworld.git ../add/SSR
-cp -r ../add/SSR/luci-app-ssr-plus ./package/lean/
 git clone https://github.com/rosywrt/luci-theme-rosy.git ../add/Rosy
 cp -r ../add/Rosy/luci-theme-rosy ./package/lean/
 git clone https://github.com/linkease/ddnsto-openwrt.git ../add/ddnsto
@@ -71,8 +69,8 @@ cp -r ../5.4/feeds/packages/admin/ipmitool ./feeds/packages/admin/
 
 echo -e '\nDboykey Build\n'  >> package/base-files/files/etc/banner
 ln -s package/lean/default-settings/files/zzz-default-settings
-mkdir ../dl
-ln -s ../dl
+#mkdir ../dl
+#ln -s ../dl
 sed -i '/uci commit luci/i\\uci set luci.main.mediaurlbase=/luci-static/rosy' package/lean/default-settings/files/zzz-default-settings
 sed -i -e '/shadow/d' package/lean/default-settings/files/zzz-default-settings
 sed -i "/uci commit luci/a\\uci commit network" package/lean/default-settings/files/zzz-default-settings

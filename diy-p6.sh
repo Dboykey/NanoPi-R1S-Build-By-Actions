@@ -6,7 +6,7 @@
 
 # 编译 OpenWrt
 #cp ../../config.lede ./.config
-cp ../../$CONFIG_FILE ./.config
+cp $GITHUB_WORKSPACE/$CONFIG_FILE $GITHUB_WORKSPACE/openwrt/.config
 make defconfig
 make download
 make tools/compile
